@@ -9,6 +9,7 @@ import hu.bme.mit.ftsrg.hungryelephant.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.management.ManagementFactory;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,7 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public final class HungryElephantApplication {
-	private final int port;
+	protected final int port;
 	private final File configXML;
 	private final PrintStream out;
 	private final PrintStream err;
@@ -39,7 +42,11 @@ public final class HungryElephantApplication {
 		this.out = out;
 		this.err = err;
 	}
-
+	
+	public DatabaseModel getModel(){
+		return model;
+	}
+	
 	private void run() {
 		out.println("===== HungryElephant Server =====");
 		out.println("Run requested");
@@ -286,7 +293,9 @@ public final class HungryElephantApplication {
 		} else {
 			errors.add("Missing parameters");
 		}
-
+		
+		HungryElephantApplication hea=null;
+		
 		if (errors.size() > 0) {
 			// print errors
 			System.err.println("An error occured");
@@ -308,6 +317,31 @@ public final class HungryElephantApplication {
 				System.err.println("  Message: " + e.getMessage());
 				e.printStackTrace();
 			}
+		}
+		
+		HungryElephantApplicationControl heac = new HungryElephantApplicationControl(hea);
+		
+		try {
+			
+			ObjectName name = null;
+			name = new ObjectName("hu.bme.mit.ftsrg.hungryelephant:type=control");
+		
+			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+			
+			mbs.registerMBean(heac, name);
+
+
+		} catch (Exception e) {
+			/*
+			 * Here we may receive:
+			 *   InstanceAlreadyExistsException
+			 *   MBeanRegistrationException
+			 *   NotCompliantMBeanException
+			 *   NullPointerException
+			 *   MalformedObjectNameException
+			 */
+			e.printStackTrace();
+			System.exit(2);
 		}
 	}
 }
