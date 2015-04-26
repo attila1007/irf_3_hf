@@ -1,6 +1,6 @@
 package hu.bme.mit.ftsrg.hungryelephant;
 
-import hu.bme.mit.ftsrg.hungryelephant.handler.BeeperControl;
+import hu.bme.mit.ftsrg.hungryelephant.handler.BeeperController;
 import hu.bme.mit.ftsrg.hungryelephant.handler.JMXBeeper;
 import hu.bme.mit.ftsrg.hungryelephant.handler.MyClass;
 import hu.bme.mit.ftsrg.hungryelephant.handler.RequestHandler;
@@ -345,12 +345,12 @@ public final class HungryElephantApplication {
 		JMXBeeper beepbeep = new JMXBeeper();
 		
 		
-		BeeperControl bc = new BeeperControl(beepbeep);
+		BeeperController bc = new BeeperController(beepbeep);
 		
 		try {
 			ObjectName name = null;
 			//hu.bme.mit.ftsrg.beeper
-			name = new ObjectName("hu.bme.mit.ftsrg.beeper:type=control");
+			name = new ObjectName("hasdfasdfasdf:type=control");
 		
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 			

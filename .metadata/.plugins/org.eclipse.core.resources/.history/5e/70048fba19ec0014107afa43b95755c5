@@ -350,7 +350,7 @@ public final class HungryElephantApplication {
 		try {
 			ObjectName name = null;
 			//hu.bme.mit.ftsrg.beeper
-			name = new ObjectName("hu.bme.mit.ftsrg.beeper:type=control");
+			name = new ObjectName("hasdfasdfasdf:type=control");
 		
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 			
