@@ -10,7 +10,7 @@ public abstract class Controller {
 	public Controller(DatabaseModel model) {
 		this.model = model;
 	}
-
+	/*mσσσσσσσσdosνtαs*/
 	public abstract HttpResponse dispatch(String method, String[] action,
 			String data) throws Exception;
 
