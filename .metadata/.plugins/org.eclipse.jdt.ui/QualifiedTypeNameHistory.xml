@@ -4,4 +4,7 @@
 <fullyQualifiedTypeName name="javax.management.MBeanServer"/>
 <fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.UserController"/>
 <fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.MyClass"/>
+<fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.JMXBeeper"/>
+<fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.BeeperController"/>
+<fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.BeeperControl"/>
 </qualifiedTypeNameHistroy>

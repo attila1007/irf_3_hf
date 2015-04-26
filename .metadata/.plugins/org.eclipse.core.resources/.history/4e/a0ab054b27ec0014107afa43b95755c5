@@ -1,0 +1,47 @@
+/*
+	Desc: 	Sample application for demonstrating instrumentation with JMX
+	Date: 	2011.04.20.
+	Author: Imre Kocsis, BME MIT
+ */
+
+package hu.bme.mit.ftsrg.jmxbeep;
+
+public class UserControl implements BeeperControlMBean {
+
+	private JMXBeeper beep = null;
+
+	protected UserControl(JMXBeeper beep) {
+		this.beep = beep;
+	}
+
+	public boolean getMuted() {
+		return beep.muted;
+	}
+
+	public void setMuted(boolean muted) {
+		beep.muted = muted;
+		System.out.println(String.format(
+				"Mute updated to %b, so currently it is %s", beep.muted,
+				(beep.muted ? "muted" : "not muted")));
+	}
+
+	public int getCycleTimeInMsec() {
+		return beep.cycleTimeInMsec;
+	}
+
+	public void setCycleTimeInMsec(int cycleTimeInMsec) {
+		if (cycleTimeInMsec < 500)
+			beep.cycleTimeInMsec = 500;
+		else if (cycleTimeInMsec > 100000)
+			beep.cycleTimeInMsec = 100000;
+		else
+			beep.cycleTimeInMsec = cycleTimeInMsec;
+
+		System.out.println(String.format(
+				"Cycle time updated to %d milliseconds", beep.cycleTimeInMsec));
+	}
+
+	public void exit() {
+		beep.shouldExit = true;
+	}
+}

@@ -8,21 +8,11 @@ import java.util.UUID;
 
 import org.json.JSONObject;
 
-public final class UserController extends Controller implements UserControllerMBean {
+public final class UserController extends Controller {
 	public UserController(DatabaseModel model) {
 		super(model);
 	}
-	
-	/*modositas**/
-	
-	public void addUser(String name,String passwd){
-		User user = new User(name,passwd);
-		this.getModel().users().put(user.getId(), user);
-	}
-	
-	
-	/*modositas vege*/
-	
+
 	@Override
 	public HttpResponse dispatch(String method, String[] action, String data) {
 		if (action.length != 1) {

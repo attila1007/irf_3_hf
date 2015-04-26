@@ -1,0 +1,23 @@
+/*
+	Desc: 	Sample application for demonstrating instrumentation with JMX
+	Date: 	2011.04.20.
+	Author: Imre Kocsis, BME MIT
+*/
+
+package hu.bme.mit.ftsrg.jmxbeep;
+
+/**
+ * JMXBeeper controller management bean. 
+ */
+public interface UserControlMBean {
+
+	public boolean getMuted();
+	public void setMuted(boolean muted);
+	
+	public int getCycleTimeInMsec();
+	public void setCycleTimeInMsec(int cycleTimeInMsec);
+	
+	public void exit();
+	
+}
+

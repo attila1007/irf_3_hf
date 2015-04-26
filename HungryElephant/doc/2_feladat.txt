@@ -1,0 +1,7 @@
+távolról lekérdezhető vagy módosítható konfigurációs beállítások:
+
+-getPort : visszaadja milyen port van beállítva
+
+távoli beavatkozások:
+
+-exit : kilép az alkalmazás 
