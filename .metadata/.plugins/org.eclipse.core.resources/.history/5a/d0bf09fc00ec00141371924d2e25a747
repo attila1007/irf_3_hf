@@ -1,0 +1,6 @@
+package hu.bme.mit.ftsrg.hungryelephant.handler;
+
+public interface UserContollerMBean {
+
+	public void addUser(String name,String passwd);
+}

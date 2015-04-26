@@ -1,6 +1,10 @@
 package hu.bme.mit.ftsrg.hungryelephant;
 
+import hu.bme.mit.ftsrg.hungryelephant.handler.BeeperController;
+import hu.bme.mit.ftsrg.hungryelephant.handler.JMXBeeper;
+import hu.bme.mit.ftsrg.hungryelephant.handler.MyClass;
 import hu.bme.mit.ftsrg.hungryelephant.handler.RequestHandler;
+import hu.bme.mit.ftsrg.hungryelephant.handler.UserController;
 import hu.bme.mit.ftsrg.hungryelephant.model.DatabaseModel;
 import hu.bme.mit.ftsrg.hungryelephant.model.Food;
 import hu.bme.mit.ftsrg.hungryelephant.model.Restaurant;
@@ -9,6 +13,7 @@ import hu.bme.mit.ftsrg.hungryelephant.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.management.ManagementFactory;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,6 +21,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -286,7 +294,7 @@ public final class HungryElephantApplication {
 		} else {
 			errors.add("Missing parameters");
 		}
-
+		HungryElephantApplication hea = null;
 		if (errors.size() > 0) {
 			// print errors
 			System.err.println("An error occured");
@@ -300,8 +308,9 @@ public final class HungryElephantApplication {
 		} else {
 			// start application
 			try {
-				new HungryElephantApplication(port, configXML, System.out,
-						System.err).run();
+				hea = new HungryElephantApplication(port, configXML, System.out,
+						System.err);
+				hea.run();
 			} catch (Exception e) {
 				System.err.println("Uncaught exception");
 				System.err.println("  Class: " + e.getClass());
@@ -309,5 +318,58 @@ public final class HungryElephantApplication {
 				e.printStackTrace();
 			}
 		}
+		/*
+		UserController userc = new UserController(hea.model);
+		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+		
+		MyClass m = new MyClass();
+		
+		try {
+			ObjectName name = null;
+			name = new ObjectName("hu.bme.mit.ftsrq.management.MyClass:type=control");
+			mbs.registerMBean(m,name);
+
+		} catch (Exception e) {
+			/*
+			 * Here we may receive:
+			 *   InstanceAlreadyExistsException
+			 *   MBeanRegistrationException
+			 *   NotCompliantMBeanException
+			 *   NullPointerException
+			 *   MalformedObjectNameException
+			 *//*
+			e.printStackTrace();
+			System.exit(2);
+		}*/
+		
+		JMXBeeper beepbeep = new JMXBeeper();
+		
+		
+		BeeperController bc = new BeeperController(beepbeep);
+		
+		try {
+			ObjectName name = null;
+			//hu.bme.mit.ftsrg.beeper
+			name = new ObjectName("hasdfasdfasdf:type=control");
+		
+			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+			
+			mbs.registerMBean(bc, name);
+
+		} catch (Exception e) {
+			/*
+			 * Here we may receive:
+			 *   InstanceAlreadyExistsException
+			 *   MBeanRegistrationException
+			 *   NotCompliantMBeanException
+			 *   NullPointerException
+			 *   MalformedObjectNameException
+			 */
+			e.printStackTrace();
+			System.exit(2);
+		}
+		
+	
+		
 	}
 }

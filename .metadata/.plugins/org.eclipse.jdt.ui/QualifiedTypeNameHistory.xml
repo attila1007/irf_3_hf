@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.lang.management.ManagementFactory"/>
+<fullyQualifiedTypeName name="javax.management.MBeanServer"/>
+<fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.UserController"/>
+<fullyQualifiedTypeName name="hu.bme.mit.ftsrg.hungryelephant.handler.MyClass"/>
+</qualifiedTypeNameHistroy>
