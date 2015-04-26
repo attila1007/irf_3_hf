@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Initial data and static page contents should be specified in this file -->
+<config>
+    <users>
+        <user>
+            <username>forzaitalia1</username>
+            <password>1234</password>
+        </user>
+        <user>
+            <username>forzaitalia2</username>
+            <password>2345</password>
+        </user>
+        <user>
+            <username>veggie</username>
+            <password>3456</password>
+        </user>
+        <user>
+            <username>pizzaeater</username>
+            <password>4567</password>
+        </user>
+        <user>
+            <username>user1</username>
+            <password>1111</password>
+        </user>
+        <user>
+            <username>user2</username>
+            <password>2222</password>
+        </user>
+        <user>
+            <username>user3</username>
+            <password>3333</password>
+        </user>
+    </users>
+    <restaurants>
+        <restaurant>
+            <name>Forza Italia</name>
+            <address>Milan</address>
+            <menu>
+                <food price="2000">Pizza</food>
+                <food price="150">Apple</food>
+                <food price="200">Orange</food>
+                <food price="150">Pear</food>
+                <food price="50">Carrots</food>
+            </menu>
+            <dispatchers>
+                <user>forzaitalia1</user>
+                <user>forzaitalia2</user>
+                <user>pizzaeater</user>
+            </dispatchers>
+        </restaurant>
+        <restaurant>
+            <name>Veggie</name>
+            <address>Vienna</address>
+            <menu>
+                <food price="130">Apple</food>
+                <food price="150">Orange</food>
+                <food price="135">Pear</food>
+                <food price="350">Grapes</food>
+                <food price="35">Carrots</food>
+            </menu>
+            <dispatchers>
+                <user>veggie</user>
+            </dispatchers>
+        </restaurant>
+        <restaurant>
+            <name>EatDatFast</name>
+            <address>Budapest</address>
+            <menu>
+                <food price="1300">Hamburger</food>
+                <food price="1500">Pizza</food>
+                <food price="600">Hotdog</food>
+            </menu>
+            <dispatchers>
+                <user>pizzaeater</user>
+            </dispatchers>
+        </restaurant>
+    </restaurants>
+    <pages>
+        <page name="welcome">Welcome to the Hungry Elephant!</page>
+        <page name="help">
+        <![CDATA[
+Request content type: always JSON
+Response content-type:
+    /page/*: text/plain
+    other: application/json
+
+Actions:
+
+============================================================================================
+GET /
+============================================================================================
+    Alias for GET /page/welcome
+
+============================================================================================
+GET /page/welcome
+============================================================================================
+    Displays the welcome page.
+    response: content as plain text
+
+============================================================================================
+GET /page/help
+============================================================================================
+    Displays the help page.
+    response: content as plain text
+
+============================================================================================
+POST /user/login
+============================================================================================
+    User login.
+    request: username, password
+        e.g.:
+            --------------------------------------------------------------------------------
+            {username: "user", password: "pass"}
+            --------------------------------------------------------------------------------
+    response: status ("ok" or "error") and sessionId or message
+        e.g.:
+            --------------------------------------------------------------------------------
+            {status: "ok", sessionId: "b2d5bd20-db9c-11e3-9c1a-0800200c9a66"}
+            --------------------------------------------------------------------------------
+            {status: "error", message: "Invalid credentials"}
+            --------------------------------------------------------------------------------
+
+============================================================================================
+POST /user/logout
+============================================================================================
+    User logout. Only logged in users can perform a logout.
+    request: sessionId
+        e.g.: 
+            --------------------------------------------------------------------------------
+            {sessionId: "b2d5bd20-db9c-11e3-9c1a-0800200c9a66"}
+            --------------------------------------------------------------------------------
+    response: status ("ok" or "error") and message if error
+        e.g.:
+            --------------------------------------------------------------------------------
+            {status: "ok"}
+            --------------------------------------------------------------------------------
+
+============================================================================================
+GET /restaurant
+============================================================================================
+    Gets a list of the restaurants.
+    request: none
+    response: status (always "ok") and an array of the restaurants
+        e.g.: 
+            --------------------------------------------------------------------------------
+            {
+                status: "ok",
+                restaurants: [
+                    {name: "Restaurant 1", address: "Address 1"},
+                    {name: "Restaurant 2", address: "Address 2"}
+                ]
+            }
+            --------------------------------------------------------------------------------
+
+============================================================================================
+GET /restaurant/{name}
+============================================================================================
+    Gets information about the restaurant specified by the given name.
+    request: none
+    response: status ("ok" or "error") and restaurant or message
+        e.g.:
+            --------------------------------------------------------------------------------
+            {
+                status: "ok",
+                restaurant: {
+                    name: "Restaurant 1", 
+                    address: "Address 1",
+                    menu: [
+                        {name: "Food 1", price: 100},
+                        {name: "Food 2", price: 100}
+                    ]
+                }
+            }
+            --------------------------------------------------------------------------------
+            {status: "error", message: "Invalid restaurant name"}
+            --------------------------------------------------------------------------------
+
+============================================================================================
+POST /restaurant/{name}/orders
+============================================================================================
+    Gets the orders of the restaurant specified by the given name. Only dispatchers can 
+    perform this action.
+    request: sessionId
+        e.g.:
+            --------------------------------------------------------------------------------
+            {sessionId: "b2d5bd20-db9c-11e3-9c1a-0800200c9a66"}
+            --------------------------------------------------------------------------------
+    response: status ("ok" or "error") and order ids
+        e.g.:
+            --------------------------------------------------------------------------------
+            {status: "ok", ids: [6, 7, 8] }
+            --------------------------------------------------------------------------------
+            {status: "error", message: "Invalid restaurant name"}
+            --------------------------------------------------------------------------------
+
+============================================================================================
+PUT /order
+============================================================================================
+    Creates an order. Only logged in users can create orders.
+    request: sessionId, order (restaurant, array of food names)
+        e.g.: (order for 1 of "Food 1", 2 of "Food 2" and 1 of "Food 3")
+            --------------------------------------------------------------------------------
+            {
+                sessionId: "b2d5bd20-db9c-11e3-9c1a-0800200c9a66", 
+                order: {
+                    restaurant: "Restaurant", 
+                    foods: ["Food 2", "Food 3", "Food 2", "Food 1"]
+                }
+            }
+            --------------------------------------------------------------------------------
+    response: status ("ok" or "error") and id or message
+            --------------------------------------------------------------------------------
+            {status: "ok", id: 6}
+            --------------------------------------------------------------------------------
+            {status: "error", message: "Invalid restaurant name"}
+            --------------------------------------------------------------------------------
+
+============================================================================================
+POST /order/{id}
+============================================================================================
+    Gets the order specified by the id. An order can only be seen by its owner and the 
+    dispatchers of the restaurant. 
+    request: sessionId
+        e.g.:
+            --------------------------------------------------------------------------------
+            {sessionId: "b2d5bd20-db9c-11e3-9c1a-0800200c9a66"}
+            --------------------------------------------------------------------------------
+    response: status ("ok" or "error") and order or message
+        e.g.:
+            --------------------------------------------------------------------------------
+            {
+                status: "ok",
+                user: "User 1",
+                order: {
+                    id: 6,
+                    restaurant: "Restaurant", 
+                    foods: ["Food 2", "Food 3", "Food 2", "Food 1"],
+                    total: 600
+                }
+            }
+            --------------------------------------------------------------------------------
+            {status: "error", message: "Invalid id"}
+            --------------------------------------------------------------------------------
+
+============================================================================================
+DELETE /order/{id}
+============================================================================================
+    Deletes the order specified by the id. An order can only be deleted by its owner and 
+    the dispatchers of the restaurant.  
+    request: sessionId
+            --------------------------------------------------------------------------------
+            {sessionId: "b2d5bd20-db9c-11e3-9c1a-0800200c9a66"}
+            --------------------------------------------------------------------------------
+    response: status ("ok" or "error") and message if error
+        e.g.: 
+            --------------------------------------------------------------------------------
+            {status: "ok"}
+            --------------------------------------------------------------------------------
+            {status: "error", message: "Invalid id"}
+            --------------------------------------------------------------------------------
+        ]]>
+        </page>
+    </pages>
+</config>

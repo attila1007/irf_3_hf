@@ -1,7 +1,16 @@
 távolról lekérdezhető vagy módosítható konfigurációs beállítások:
 
 -getPort : visszaadja milyen port van beállítva
+-getUserNumber : visszaadja a felhasználók számát
+-getRestaurantNumber : visszaadja az éttermek számát
+-addUser(String name, String password) : felvesz egy új felhasználót
+-removeUser(String id) : eltávolít egy felhasználót
 
 távoli beavatkozások:
 
--exit : kilép az alkalmazás 
+-exit : kilép az alkalmazás
+-restart : az alkalmazás bezáródik és újra indul, újra betölti a konfigurációs fájlokat
+
+
+
+

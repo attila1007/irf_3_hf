@@ -9,7 +9,6 @@ INDEX VERSION 1.127+D:\BME\6\int_rendsz_fel\3_hf\irf_3_hf\.metadata\.plugins\org
 605290374.index
 1787405673.index
 1337478678.index
-1218800942.index
 4158691411.index
 2535676096.index
 4187470955.index

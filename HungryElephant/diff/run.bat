@@ -1,0 +1,1 @@
+java -Dcom.sun.management.jmxremote.port=9004 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false hu.bme.mit.ftsrg.hungryelephant.HungryElephantApplication 8082 config.xml

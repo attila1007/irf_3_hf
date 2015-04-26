@@ -1,0 +1,18 @@
+package hu.bme.mit.ftsrg.hungryelephant;
+
+public class HungryElephantApplicationControl implements HungryElephantApplicationControlMBean {
+	
+	HungryElephantApplication hea=null;
+	
+	public HungryElephantApplicationControl(HungryElephantApplication hea){
+		this.hea=hea;
+	}
+
+	@Override
+	public int getPort() {
+		// TODO Auto-generated method stub
+		hea.port;
+	}
+	
+	
+}
